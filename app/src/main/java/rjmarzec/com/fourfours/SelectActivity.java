@@ -13,6 +13,6 @@ public class SelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
-        startButton = findViewById(R.id.button4);
+        startButton = findViewById(R.id.selectConfirmButton);
     }
 }
