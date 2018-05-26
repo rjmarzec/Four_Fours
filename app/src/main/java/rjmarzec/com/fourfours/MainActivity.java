@@ -6,13 +6,14 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity
 {
-
-    Button startButton = new Button();
-    Button aboutButton = new Button();
+    Button startButton, aboutButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main);
+
+
     }
 }

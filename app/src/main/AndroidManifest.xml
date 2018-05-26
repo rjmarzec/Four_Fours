@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".SelectActivity" />
+        <activity android:name=".TargetActivity" />
+        <activity android:name=".ComputeActivity" />
+        <activity android:name=".HistoryActivity"></activity>
     </application>
 
 </manifest>
