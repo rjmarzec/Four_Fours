@@ -1,7 +1,7 @@
 package rjmarzec.com.fourfours;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 public class SelectActivity extends AppCompatActivity {
@@ -14,6 +14,5 @@ public class SelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select);
 
         startButton = findViewById(R.id.button4);
-
     }
 }
