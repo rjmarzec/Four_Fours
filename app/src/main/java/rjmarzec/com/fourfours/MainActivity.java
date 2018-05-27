@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity
 {
+    //Declaring our buttons here in case we need to access them in a method elsewhere later on
     Button startButton, aboutButton;
 
     @Override
@@ -16,9 +17,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Connecting our buttons from the layout to the java.
         startButton = findViewById(R.id.mainStartButton);
         aboutButton = findViewById(R.id.mainAboutButton);
 
+        //Making our startButton take us to the next step of the game
         startButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Making our aboutButton take us to a page with information about that app
         aboutButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -36,8 +40,11 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    //Modifying the back button to take us one step out of our activities.
+    //In this case, there is no step back, so we just close the app
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         System.exit(0);
     }
 }

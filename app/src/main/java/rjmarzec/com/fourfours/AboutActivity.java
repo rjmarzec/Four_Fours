@@ -8,16 +8,17 @@ import android.widget.Button;
 
 public class AboutActivity extends AppCompatActivity
 {
+    //Declaring the return button here in case we need to access it in a method elsewhere later on
     Button returnButton;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        //Creating a button that takes us back to the landing page when clicked
         returnButton = findViewById(R.id.aboutReturnButton);
-
         returnButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -28,6 +29,7 @@ public class AboutActivity extends AppCompatActivity
         });
     }
 
+    //Modifying the back button to take us one step out of our activities
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), MainActivity.class));

@@ -14,8 +14,11 @@ import android.widget.Toast;
 
 public class SelectActivity extends AppCompatActivity
 {
+    //Declaring widgets
     Button startButton;
     RadioGroup radioGroup;
+
+    //Declaring other variables
     int selectedNumber;
     boolean numIsSelected;
 
@@ -25,19 +28,15 @@ public class SelectActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
+        //Connecting our widgets from the layout to the java
         startButton = findViewById(R.id.selectConfirmButton);
         radioGroup = findViewById(R.id.selectRadioGroup);
         numIsSelected = false;
 
-        for (int i = 1; i < 11; i++)
-        {
-            RadioButton temp = new RadioButton(getApplicationContext());
-            temp.setTextColor(Color.BLACK);
-            temp.setText("" + i);
-            temp.setTextSize(18f);
-            radioGroup.addView(temp);
-        }
+        //Loading up our RadioGroup with a number of numbers that act as selected numbers
+        fillRadioGroup();
 
+        //If one of the options from the RadioGroup is selected, save that
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -48,14 +47,16 @@ public class SelectActivity extends AppCompatActivity
             }
         });
 
+        //The onClickListener for the button that takes us to the target number selection activity
         startButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                //Checks to make sure that the user has selected a number. If they have not, the button will not move them to the next activity
                 if (numIsSelected)
                 {
-                    //Pulling the selected Number and storing it to the shared preferences
+                    //If a number was selected by the user, store it and move them to the next activity
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putInt("selectedNumber", selectedNumber);
@@ -70,6 +71,21 @@ public class SelectActivity extends AppCompatActivity
         });
     }
 
+    //Fills up our RadioGroup with different options for the selected number (as in 4 X's, where X is the selected number)
+    private void fillRadioGroup()
+    {
+        radioGroup.removeAllViews();
+        for (int i = 1; i < 13; i++)
+        {
+            RadioButton temp = new RadioButton(getApplicationContext());
+            temp.setTextColor(Color.BLACK);
+            temp.setText(String.valueOf(i));
+            temp.setTextSize(18f);
+            radioGroup.addView(temp);
+        }
+    }
+
+    //Modifying the back button to take us one step out of our activities
     @Override
     public void onBackPressed()
     {

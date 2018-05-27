@@ -26,13 +26,16 @@ import java.util.Arrays;
 
 public class TargetActivity extends AppCompatActivity
 {
-    Button startButton;
-    EditText enteredTarget;
+    //Declaring widgets
     TextView historyTextView, selectedNumberTextView, globalTimesCompleted;
+    EditText enteredTarget;
+    Button startButton;
     CheckBox isCompletedLocally;
+
+    //Declaring other variables
     private SharedPreferences preferences;
-    String history;
     ArrayList<String> historyList;
+    String historyString;
     boolean numberEntered;
 
     @Override
@@ -40,6 +43,7 @@ public class TargetActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_target);
 
+        //Connecting the widgets from the layouts to the java, and
         enteredTarget = findViewById(R.id.targetEnteredTarget);
         selectedNumberTextView = findViewById(R.id.targetSelectedNumber);
         globalTimesCompleted = findViewById(R.id.targetGlobalTimesCompleted);
@@ -53,10 +57,10 @@ public class TargetActivity extends AppCompatActivity
         //Pulling the history of solved values
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final SharedPreferences.Editor editor = preferences.edit();
-        history = preferences.getString("historyOf" + Integer.toString(preferences.getInt("selectedNumber", 4)), "None!");
-        historyList = new ArrayList<>(Arrays.asList(history.split(";;")));
+        historyString = preferences.getString("historyOf" + Integer.toString(preferences.getInt("selectedNumber", 4)), "None!");
+        historyList = new ArrayList<>(Arrays.asList(historyString.split(";;")));
 
-        //Sorting the history list by converting into ints and then comparing
+        //Sorting the history list by converting into ints, sorting that list, and then converting back into a String array
         int[] myIntArray = new int[historyList.size()];
         if (historyList.get(0) != "None!")
         {
@@ -73,18 +77,7 @@ public class TargetActivity extends AppCompatActivity
 
         //Getting the history of solved values to be displayed in a nice format
         selectedNumberTextView.setText("Selected Number: " + preferences.getInt("selectedNumber", 4));
-        String historyTextViewText = "History of Solved Number:\n";
-        for (int i = 0; i < historyList.size(); i++)
-        {
-            if (i == historyList.size() - 1)
-            {
-                historyTextViewText += historyList.get(i);
-            } else
-            {
-                historyTextViewText += historyList.get(i) + ", ";
-            }
-        }
-        historyTextView.setText(historyTextViewText);
+        historyTextView.setText(createHistoryTextViewText());
 
         //Button listener for moving to the compute activity
         startButton.setOnClickListener(new View.OnClickListener()
@@ -92,6 +85,7 @@ public class TargetActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                //Checks the entered target, and if it is a number, store it, and move to the next screen
                 try
                 {
                     int num = Integer.parseInt(enteredTarget.getText().toString());
@@ -101,6 +95,7 @@ public class TargetActivity extends AppCompatActivity
                     startActivity(new Intent(getApplicationContext(), ComputeActivity.class));
                 } catch (NumberFormatException e)
                 {
+                    //Otherwise, let the user know that were was an error with their input
                     Toast.makeText(TargetActivity.this, "A non-number was entered. Please enter a number.", Toast.LENGTH_LONG).show();
                 }
             }
@@ -122,25 +117,49 @@ public class TargetActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s)
             {
+                //Check to be sure that the user has entered a number as the target, and not anything else
                 try
                 {
+                    //int num goes unused, but it allow us to check if entered target is actually a number via the try-catch statement
                     int num = Integer.parseInt(s.toString());
 
+                    //Checks the checkbox if the current target appears in the history of the selected number
                     if (historyList.contains(enteredTarget.getText().toString()))
                         isCompletedLocally.setChecked(true);
                     else
                         isCompletedLocally.setChecked(false);
+                    //Once a number is entered, store it and grab info from Firebase on it
                     numberEntered = true;
+                    updateGlobalStat();
                 } catch (NumberFormatException e)
                 {
+                    //If the user has not entered a number, do not allow them to move to the next screen
                     numberEntered = false;
                 }
-
-                updateGlobalStat();
             }
         });
     }
 
+    //Creates the string of all the locally solved target numbers for selected number for use in displaying in a TextView
+    private String createHistoryTextViewText()
+    {
+        String historyTextViewText = "History of Solved Number:\n";
+        for (int i = 0; i < historyList.size(); i++)
+        {
+            //If the current number is the last one, don't include a comma and space after it
+            if (i == historyList.size() - 1)
+            {
+                historyTextViewText += historyList.get(i);
+            } else
+            {
+                //Otherwise, do add the comma and space to format nicely
+                historyTextViewText += historyList.get(i) + ", ";
+            }
+        }
+        return historyTextViewText;
+    }
+
+    //Updates the stat of how many times the target has been solved globally by pulling from Firebase
     private void updateGlobalStat()
     {
         //Code for Firebase checking of how many users have gotten a specific number.
@@ -151,13 +170,16 @@ public class TargetActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                if (dataSnapshot.getValue() == null)
-                {
-                    globalCompletesReference.setValue((long) 0);
-                    globalCompletesReference.push();
-                } else
+                //A any user has attempted to solve the target, pull the number of times the target has been solved and show it to the user
+                if (dataSnapshot.getValue() != null)
                 {
                     globalTimesCompleted.setText("Times Target Solved Globally: " + String.valueOf(dataSnapshot.getValue()));
+
+                } else
+                {
+                    //If there is no data for the target, create the database reference with a solved value of 0
+                    globalCompletesReference.setValue((long) 0);
+                    globalCompletesReference.push();
                 }
             }
 
@@ -168,6 +190,7 @@ public class TargetActivity extends AppCompatActivity
         });
     }
 
+    //Modifying the back button to take us one step out of our activities
     @Override
     public void onBackPressed()
     {
