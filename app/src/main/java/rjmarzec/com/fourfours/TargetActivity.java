@@ -34,4 +34,10 @@ public class TargetActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+    }
 }

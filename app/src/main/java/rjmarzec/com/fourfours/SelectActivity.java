@@ -32,6 +32,7 @@ public class SelectActivity extends AppCompatActivity
             RadioButton temp = new RadioButton(getApplicationContext());
             temp.setTextColor(Color.BLACK);
             temp.setText("" + i);
+            temp.setTextSize(18f);
             radioGroup.addView(temp);
         }
 
@@ -61,12 +62,11 @@ public class SelectActivity extends AppCompatActivity
                 }
             }
         });
-
-
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 }
