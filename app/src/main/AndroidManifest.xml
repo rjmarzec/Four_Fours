@@ -20,6 +20,5 @@
         <activity android:name=".SelectActivity">android:screenOrientation="portrait"></activity>
         <activity android:name=".TargetActivity">android:screenOrientation="portrait"></activity>
         <activity android:name=".ComputeActivity">android:screenOrientation="portrait"></activity>
-        <activity android:name=".HistoryActivity">android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

@@ -14,11 +14,11 @@ public class ComputeActivity extends AppCompatActivity {
 
     Button submitButton;
     TextView number1, number2, number3, number4, goalNum, output, currentNumber;
-    Spinner operation1, operation2, operation3;
+    Spinner operationSpinner1, operationSpinner2, operationSpinner3;
     ArrayList<TextView> numbers = new ArrayList<>();
     char[] operationArray;
-    int currentOperationString;
-
+    char currentOperation;
+    int targetNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +35,22 @@ public class ComputeActivity extends AppCompatActivity {
         output = findViewById(R.id.computeOutput);
         currentNumber = findViewById(R.id.computeCurrentNumber);
 
-        operation1 = findViewById(R.id.computeOperation1);
-        operation2 = findViewById(R.id.computeOperation2);
-        operation3 = findViewById(R.id.computeOperation3);
+        operationSpinner1 = findViewById(R.id.computeOperation1);
+        operationSpinner2 = findViewById(R.id.computeOperation2);
+        operationSpinner3 = findViewById(R.id.computeOperation3);
 
+        goalNum.setText("Goal: " + targetNumber);
 
-        goalNum.setText("Goal: " + TargetActivity.targetNumber);
+        //TODO: Pulling the target number from shared preferences
+        //number1 = ;
+        //number2 = ;
+        //number3 = ;
+        //number4 = ;
 
-        for (TextView element : numbers)
-        {
-            element.setText(TargetActivity.targetNumber);
-        }
+        number1 = currentNumber;
+        number2 = currentNumber;
+        number3 = currentNumber;
+        number4 = currentNumber;
 
         submitButton.setOnClickListener(new View.OnClickListener()
         {
@@ -57,7 +62,29 @@ public class ComputeActivity extends AppCompatActivity {
     }
 
     public char getComputeOperation(Spinner spinner) {
-        operationArray = spinner.getSelectedItem().toString().toCharArray();
-        currentOperationString = operationArray[0];
+        char charOfCurrentOperation = spinner.getSelectedItem().toString().charAt(0);
+
+        if (charOfCurrentOperation == '+')
+        {
+            //targetNumber += targetNumber;
+            return '+';
+        } else if (charOfCurrentOperation == '-')
+        {
+            //targetNumber -= targetNumber;
+            return '-';
+        } else if (charOfCurrentOperation == '*')
+        {
+            //targetNumber *= targetNumber;
+            return '*';
+        } else if (charOfCurrentOperation == '/')
+        {
+            //targetNumber /= targetNumber;
+            return '/';
+        } else if (charOfCurrentOperation == '^')
+        {
+            //targetNumber /= targetNumber;
+            return '^';
+        }
+        return 0;
     }
 }

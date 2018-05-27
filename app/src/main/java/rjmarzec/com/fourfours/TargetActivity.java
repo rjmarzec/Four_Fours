@@ -1,20 +1,29 @@
 package rjmarzec.com.fourfours;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TargetActivity extends AppCompatActivity {
 
-    Button startButton;
+    Button startButton, seeHistory;
     EditText enteredTarget;
-    CheckBox getLocal;
+    TextView historyTextView;
+    CheckBox isCompletedLocally;
     public static int targetNumber;
     private String tempstr;
+    private SharedPreferences preferences;
+    String history;
+    ArrayList<String> historyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +32,32 @@ public class TargetActivity extends AppCompatActivity {
 
         enteredTarget = findViewById(R.id.targetEnteredTarget);
         startButton = findViewById(R.id.targetStartButton);
+        seeHistory = findViewById(R.id.targetSeeHistory);
+        historyTextView = findViewById(R.id.targetHistory);
+        isCompletedLocally = findViewById(R.id.targetCheckBox);
+        isCompletedLocally.setClickable(false);
+        isCompletedLocally.setChecked(false);
 
+        //Pulling the history of solved values
+        preferences = getPreferences(getApplicationContext().MODE_PRIVATE);
+        history = preferences.getString("historyOf4", "1;;2;;3");
+        historyList = new ArrayList<>(Arrays.asList(history.split(";;")));
+
+        //Getting the history of solved values to be displayed
+        String historyTextViewText = "History of Selected Number:\n";
+        for (int i = 0; i < historyList.size(); i++)
+        {
+            if (i == historyList.size() - 1)
+            {
+                historyTextViewText += historyList.get(i);
+            } else
+            {
+                historyTextViewText += historyList.get(i) + ",";
+            }
+        }
+        historyTextView.setText(historyTextViewText);
+
+        //Button listener for moving to the compute activity
         startButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
