@@ -27,7 +27,7 @@ public class ComputeActivity extends AppCompatActivity
 {
     //Declaring Widgets
     Button submitButton;
-    TextView number1, number2, number3, number4, priorityBar2Label, selectedNumberTextView, goalNumberTextView, outputTextView;
+    TextView number1, number2, number3, number4, priorityBar2Label, selectedNumberTextView, targetNumberTextView, outputTextView;
     Spinner operationSpinner1, operationSpinner2, operationSpinner3;
     SeekBar prioritySeekBar1, prioritySeekBar2;
 
@@ -48,7 +48,7 @@ public class ComputeActivity extends AppCompatActivity
         number3 = findViewById(R.id.computeNumber3);
         number4 = findViewById(R.id.computeNumber4);
         priorityBar2Label = findViewById(R.id.computePriorityBar2Label);
-        goalNumberTextView = findViewById(R.id.computeGoalNumber);
+        targetNumberTextView = findViewById(R.id.computeGoalNumber);
         selectedNumberTextView = findViewById(R.id.computeCurrentNumber);
         outputTextView = findViewById(R.id.computeOutput);
 
@@ -67,8 +67,8 @@ public class ComputeActivity extends AppCompatActivity
         targetNumber = preferences.getInt("targetNumber", 4);
 
         //Filling text of widgets based on the target and selected numbers
-        selectedNumberTextView.setText("Selected Number: " + selectedNumber);
-        goalNumberTextView.setText("Goal: " + targetNumber);
+        selectedNumberTextView.setText(R.string.selected_number_label + selectedNumber);
+        targetNumberTextView.setText(R.string.target_label + targetNumber);
         number1.setText(String.valueOf(selectedNumber));
         number2.setText(String.valueOf(selectedNumber));
         number3.setText(String.valueOf(selectedNumber));
@@ -207,7 +207,7 @@ public class ComputeActivity extends AppCompatActivity
         if (result % 1 == 0)
         {
             int resultAsInt = (int) (result);
-            outputTextView.setText(Integer.toString(resultAsInt));
+            outputTextView.setText(String.valueOf(resultAsInt));
             if (resultAsInt == targetNumber)
             {
                 Toast.makeText(ComputeActivity.this, "You got it!", Toast.LENGTH_SHORT).show();
@@ -240,7 +240,7 @@ public class ComputeActivity extends AppCompatActivity
             }
         } else
         {
-            outputTextView.setText(Double.valueOf(result).toString());
+            outputTextView.setText(String.valueOf(result));
         }
     }
 

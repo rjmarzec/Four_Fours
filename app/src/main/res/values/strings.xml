@@ -1,5 +1,27 @@
 <resources>
     <string name="app_name">FourFours</string>
+    <string name="app_name_spaces">Four Fours</string>
+    <string name="content_description">Logo for the Four Fours app</string>
+    <string name="return_label">Return</string>
+    <string name="about_label">About</string>
+    <string name="start_label">Start</string>
+    <string name="select_number_label">Select a Number</string>
+    <string name="selected_number_label">Selected Num: </string>
+    <string name="target_label">Target: </string>
+    <string name="target_number_text">Target Number</string>
+
+    <string name="enter_target_number_label">Enter Your Target Number</string>
+    <string name="history_solved_label">History of Solved Numbers:\n</string>
+    <string name="global_solves_label">Times Target Solved Globally:</string>
+    <string name="completed_locally_label">Completed Locally?</string>
+
+    <string name="priority_label">Priority:</string>
+    <string name="temp_num">X</string>
+    <string name="operation1_label">Operation 1\nLeft   |   Middle   |   Right</string>
+    <string name="operation2_label">Operation 2\nPrevious + Middle Next   |   Right Half Together Next</string>
+    <string name="compute_label">Compute</string>
+
+
     <string name="about_app">This game was created in under 24 hours by three people using Android Studio
     and Firebase. The objective of the game is to create any number using four fours and mathematical
     operations. Using a limited set of mathematical operations, try to create as many numbers as possible.</string>

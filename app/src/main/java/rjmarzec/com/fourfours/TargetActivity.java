@@ -62,7 +62,7 @@ public class TargetActivity extends AppCompatActivity
 
         //Sorting the history list by converting into ints, sorting that list, and then converting back into a String array
         int[] myIntArray = new int[historyList.size()];
-        if (historyList.get(0) != "None!")
+        if (!(historyList.get(0).equals("None!")))
         {
             for (int i = 0; i < historyList.size(); i++)
             {
@@ -76,7 +76,7 @@ public class TargetActivity extends AppCompatActivity
         }
 
         //Getting the history of solved values to be displayed in a nice format
-        selectedNumberTextView.setText("Selected Number: " + preferences.getInt("selectedNumber", 4));
+        selectedNumberTextView.setText(R.string.selected_number_label + preferences.getInt("selectedNumber", 4));
         historyTextView.setText(createHistoryTextViewText());
 
         //Button listener for moving to the compute activity
@@ -90,7 +90,7 @@ public class TargetActivity extends AppCompatActivity
                 {
                     int num = Integer.parseInt(enteredTarget.getText().toString());
                     editor.putInt("targetNumber", num);
-                    editor.commit();
+                    editor.apply();
 
                     startActivity(new Intent(getApplicationContext(), ComputeActivity.class));
                 } catch (NumberFormatException e)
@@ -140,23 +140,21 @@ public class TargetActivity extends AppCompatActivity
         });
     }
 
-    //Creates the string of all the locally solved target numbers for selected number for use in displaying in a TextView
+    //Creates a string containing all the locally solved target numbers for selected number for use in displaying in a TextView
     private String createHistoryTextViewText()
     {
         String historyTextViewText = "History of Solved Number:\n";
+        StringBuilder stringBuilder = new StringBuilder(historyTextViewText);
         for (int i = 0; i < historyList.size(); i++)
         {
-            //If the current number is the last one, don't include a comma and space after it
-            if (i == historyList.size() - 1)
+            //If the current number of the history list is not the last one, include a comma and space after it
+            stringBuilder.append(historyList.get(i));
+            if (i != historyList.size() - 1)
             {
-                historyTextViewText += historyList.get(i);
-            } else
-            {
-                //Otherwise, do add the comma and space to format nicely
-                historyTextViewText += historyList.get(i) + ", ";
+                stringBuilder.append(", ");
             }
         }
-        return historyTextViewText;
+        return stringBuilder.toString();
     }
 
     //Updates the stat of how many times the target has been solved globally by pulling from Firebase

@@ -60,7 +60,7 @@ public class SelectActivity extends AppCompatActivity
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putInt("selectedNumber", selectedNumber);
-                    editor.commit();
+                    editor.apply();
 
                     startActivity(new Intent(getApplicationContext(), TargetActivity.class));
                 } else
