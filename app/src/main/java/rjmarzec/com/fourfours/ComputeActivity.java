@@ -16,6 +16,8 @@ public class ComputeActivity extends AppCompatActivity {
     TextView number1, number2, number3, number4, goalNum, output, currentNumber;
     Spinner operation1, operation2, operation3;
     ArrayList<TextView> numbers = new ArrayList<>();
+    char[] operationArray;
+    int currentOperationString;
 
 
     @Override
@@ -55,6 +57,7 @@ public class ComputeActivity extends AppCompatActivity {
     }
 
     public char getComputeOperation(Spinner spinner) {
-        spinner.getSelectedItem().toString();
+        operationArray = spinner.getSelectedItem().toString().toCharArray();
+        currentOperationString = operationArray[0];
     }
 }
