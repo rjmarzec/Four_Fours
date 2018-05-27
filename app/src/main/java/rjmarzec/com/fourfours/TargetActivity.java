@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,15 +15,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TargetActivity extends AppCompatActivity
 {
-
     Button startButton;
     EditText enteredTarget;
-    TextView historyTextView, selectedNumberTextView;
+    TextView historyTextView, selectedNumberTextView, globalTimesCompleted;
     CheckBox isCompletedLocally;
     private SharedPreferences preferences;
     String history;
@@ -36,6 +42,7 @@ public class TargetActivity extends AppCompatActivity
 
         enteredTarget = findViewById(R.id.targetEnteredTarget);
         selectedNumberTextView = findViewById(R.id.targetSelectedNumber);
+        globalTimesCompleted = findViewById(R.id.targetGlobalTimesCompleted);
         startButton = findViewById(R.id.targetStartButton);
         historyTextView = findViewById(R.id.targetHistory);
         isCompletedLocally = findViewById(R.id.targetCheckBox);
@@ -128,6 +135,35 @@ public class TargetActivity extends AppCompatActivity
                 {
                     numberEntered = false;
                 }
+
+                updateGlobalStat();
+            }
+        });
+    }
+
+    private void updateGlobalStat()
+    {
+        //Code for Firebase checking of how many users have gotten a specific number.
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference globalCompletesReference = database.getReference().child("" + preferences.getInt("selectedNumber", 4)).child(enteredTarget.getText().toString());
+        globalCompletesReference.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                if (dataSnapshot.getValue() == null)
+                {
+                    globalCompletesReference.setValue((long) 0);
+                    globalCompletesReference.push();
+                } else
+                {
+                    globalTimesCompleted.setText("Times Target Solved Globally: " + String.valueOf(dataSnapshot.getValue()));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("TAG", "Failed to retrieve high score. Error: NullPointerException");
             }
         });
     }

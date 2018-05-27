@@ -2,7 +2,5 @@
     <string name="app_name">FourFours</string>
     <string name="about_app">This game was created in under 24 hours by three people using Android Studio
     and Firebase. The objective of the game is to create any number using four fours and mathematical
-    operations. Using only addition, subtraction, multiplication, and division, it is possible to
-    create all numbers from 0-10 using four fours. After that, numbers require more complex operators
-    such as square roots, exponents, factorials, decimal points, concatenation, and more.</string>
+    operations. Using a limited set of mathematical operations, try to create as many numbers as possible.</string>
 </resources>

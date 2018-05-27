@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +14,12 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +35,7 @@ public class ComputeActivity extends AppCompatActivity
     SharedPreferences preferences;
     SeekBar prioritySeekBar1, prioritySeekBar2;
     int selectedNumber, targetNumber;
+    long globalCompletes;
     double result;
 
     @Override
@@ -77,6 +85,23 @@ public class ComputeActivity extends AppCompatActivity
         operationSpinner1.setAdapter(adapter);
         operationSpinner2.setAdapter(adapter);
         operationSpinner3.setAdapter(adapter);
+
+        //Getting Firebase stuff setup so that we can update the global completions as necessary later on
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference globalCompletesReference = database.getReference().child("" + preferences.getInt("selectedNumber", 4)).child("" + preferences.getInt("targetNumber", 4));
+        globalCompletesReference.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                globalCompletes = (long) dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("TAG", "Failed to retrieve high score. Error: NullPointerException");
+            }
+        });
 
         submitButton.setOnClickListener(new View.OnClickListener()
         {
@@ -154,6 +179,9 @@ public class ComputeActivity extends AppCompatActivity
                                 historyAsString += ";;" + resultAsInt;
                             editor.putString("historyOf" + Integer.toString(selectedNumber), historyAsString);
                             editor.commit();
+
+                            globalCompletesReference.setValue(globalCompletes + 1);
+                            globalCompletesReference.push();
                         }
 
                         //Creating a delay before moving back to the previous screen
@@ -205,7 +233,7 @@ public class ComputeActivity extends AppCompatActivity
     }
 
     //Does an operation with 2 numbers based on what operation is selected in the spinner
-    public double computeOperation(Spinner spinner, double a, double b) {
+    private double computeOperation(Spinner spinner, double a, double b) {
         char charOfCurrentOperation = spinner.getSelectedItem().toString().charAt(0);
 
         if (charOfCurrentOperation == '+')

@@ -59,7 +59,6 @@ public class SelectActivity extends AppCompatActivity
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putInt("selectedNumber", selectedNumber);
-                    editor.putString("historyOf4", "1;;2;;3;;4");
                     editor.commit();
 
                     startActivity(new Intent(getApplicationContext(), TargetActivity.class));

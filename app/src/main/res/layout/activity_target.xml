@@ -50,7 +50,7 @@
     <TextView
         android:id="@+id/targetHistory"
         android:layout_width="300dp"
-        android:layout_height="170dp"
+        android:layout_height="230dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -58,6 +58,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/targetEnteredTarget" />
+
+    <TextView
+        android:id="@+id/targetGlobalTimesCompleted"
+        android:layout_width="300dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Times Target Solved Globally:"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/targetCheckBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/targetCheckBox"
