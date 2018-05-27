@@ -76,7 +76,7 @@ public class TargetActivity extends AppCompatActivity
         }
 
         //Getting the history of solved values to be displayed in a nice format
-        selectedNumberTextView.setText(R.string.selected_number_label + preferences.getInt("selectedNumber", 4));
+        selectedNumberTextView.setText("Selected Number: " + preferences.getInt("selectedNumber", 4));
         historyTextView.setText(createHistoryTextViewText());
 
         //Button listener for moving to the compute activity
