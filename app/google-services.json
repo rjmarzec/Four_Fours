@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "520986326448",
+    "firebase_url": "https://fourfours-c5f6c.firebaseio.com",
+    "project_id": "fourfours-c5f6c",
+    "storage_bucket": "fourfours-c5f6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520986326448:android:445e9f4a8feb565e",
+        "android_client_info": {
+          "package_name": "rjmarzec.com.fourfours"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520986326448-jjndsrlqi6p3fqd7pl5mvbkt2bofipq6.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "520986326448-jjndsrlqi6p3fqd7pl5mvbkt2bofipq6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRf89LNgBe40A0oA-ReWaM26zQVSInkto"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

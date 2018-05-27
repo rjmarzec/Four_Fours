@@ -11,21 +11,27 @@ import android.widget.EditText;
 public class TargetActivity extends AppCompatActivity {
 
     Button startButton;
-    EditText targetNum;
+    EditText enteredTarget;
     CheckBox getLocal;
+    public static int targetNumber;
+    private String tempstr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_target);
 
+        enteredTarget = findViewById(R.id.targetEnteredTarget);
+        startButton = findViewById(R.id.targetStartButton);
+
         startButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), ComputeActivity.class));
+                tempstr = enteredTarget.getText().toString();
+                targetNumber = Integer.parseInt(tempstr);
             }
         });
-
     }
 }
