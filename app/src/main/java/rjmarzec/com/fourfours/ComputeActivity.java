@@ -10,7 +10,7 @@ public class ComputeActivity extends AppCompatActivity {
 
 
     Button submitButton;
-    TextView number1, number2, number3, number4, goalNum;
+    TextView number1, number2, number3, number4, goalNum, output, currentNumber;
     Spinner operation1, operation2, operation3;
 
 
@@ -26,11 +26,14 @@ public class ComputeActivity extends AppCompatActivity {
         number3 = findViewById(R.id.computeNumber3);
         number4 = findViewById(R.id.computeNumber4);
         goalNum = findViewById(R.id.computeGoalNumber);
+        output = findViewById(R.id.computeOutput);
+        cu
 
-        operation1 = findViewById(R.id.computeOperation1);
+                operation1 = findViewById(R.id.computeOperation1);
         operation2 = findViewById(R.id.computeOperation2);
         operation3 = findViewById(R.id.computeOperation3);
 
         goalNum.setText("Goal: " + TargetActivity.targetNumber);
+
     }
 }
