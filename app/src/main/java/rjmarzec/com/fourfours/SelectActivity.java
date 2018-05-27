@@ -16,7 +16,7 @@ public class SelectActivity extends AppCompatActivity
 {
     Button startButton;
     RadioGroup radioGroup;
-    int selectedNum;
+    int selectedNumber;
     boolean numIsSelected;
 
     @Override
@@ -43,7 +43,7 @@ public class SelectActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId)
             {
-                selectedNum = Integer.parseInt((((RadioButton) (findViewById(checkedId))).getText()).toString());
+                selectedNumber = Integer.parseInt((((RadioButton) (findViewById(checkedId))).getText()).toString());
                 numIsSelected = true;
             }
         });
@@ -58,7 +58,7 @@ public class SelectActivity extends AppCompatActivity
                     //Pulling the selected Number and storing it to the shared preferences
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putInt("selectedNum", selectedNum);
+                    editor.putInt("selectedNumber", selectedNumber);
                     editor.putString("historyOf4", "1;;2;;3;;4");
                     editor.commit();
 

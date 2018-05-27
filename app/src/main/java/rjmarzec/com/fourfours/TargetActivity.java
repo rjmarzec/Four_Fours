@@ -12,11 +12,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TargetActivity extends AppCompatActivity {
+public class TargetActivity extends AppCompatActivity
+{
 
     Button startButton;
     EditText enteredTarget;
@@ -42,7 +44,8 @@ public class TargetActivity extends AppCompatActivity {
 
         //Pulling the history of solved values
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        history = preferences.getString("historyOf" + Integer.toString(preferences.getInt("selectedNum", 4)), "None!");
+        final SharedPreferences.Editor editor = preferences.edit();
+        history = preferences.getString("historyOf" + Integer.toString(preferences.getInt("selectedNumber", 4)), "None!");
         historyList = new ArrayList<>(Arrays.asList(history.split(";;")));
 
         //Getting the history of solved values to be displayed in a nice format
@@ -63,10 +66,18 @@ public class TargetActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ComputeActivity.class));
-                tempstr = enteredTarget.getText().toString();
-                targetNumber = Integer.parseInt(tempstr);
+            public void onClick(View view)
+            {
+                try
+                {
+                    int num = Integer.parseInt(enteredTarget.getText().toString());
+                    editor.putInt("targetNumber", num);
+
+                    startActivity(new Intent(getApplicationContext(), ComputeActivity.class));
+                } catch (NumberFormatException e)
+                {
+                    Toast.makeText(TargetActivity.this, "A non-number was entered. Please enter a number.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -86,10 +97,18 @@ public class TargetActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)
             {
-                if (historyList.contains(enteredTarget.getText().toString()))
-                    isCompletedLocally.setChecked(true);
-                else
-                    isCompletedLocally.setChecked(false);
+                try
+                {
+                    int num = Integer.parseInt(s.toString());
+
+                    if (historyList.contains(enteredTarget.getText().toString()))
+                        isCompletedLocally.setChecked(true);
+                    else
+                        isCompletedLocally.setChecked(false);
+                } catch (NumberFormatException e)
+                {
+                    Toast.makeText(TargetActivity.this, "A non-number was entered. Please enter a number.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
