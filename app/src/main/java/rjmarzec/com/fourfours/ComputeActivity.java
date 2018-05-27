@@ -1,7 +1,9 @@
 package rjmarzec.com.fourfours;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,8 +12,10 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ComputeActivity extends AppCompatActivity
 {
@@ -64,6 +68,7 @@ public class ComputeActivity extends AppCompatActivity
         for (TextView textView : layoutNumbers)
             textView.setText(Integer.valueOf(selectedNumber).toString());
 
+        selectedNumberTextView.setText("Selected Number: " + selectedNumber);
         goalNumberTextView.setText("Goal: " + targetNumber);
 
         //Code for setting up dropdown menu options
@@ -88,10 +93,12 @@ public class ComputeActivity extends AppCompatActivity
 
                     if (prioritySeekBar2.getProgress() == 0)
                     {
+                        // L | L
                         result = computeOperation(operationSpinner2, result, selectedNumber);
                         result = computeOperation(operationSpinner3, result, selectedNumber);
                     } else
                     {
+                        // L | R
                         result = computeOperation(operationSpinner2, result, computeOperation(operationSpinner3, selectedNumber, selectedNumber));
                     }
                 } else if (prioritySeekBar1.getProgress() == 1)
@@ -101,10 +108,12 @@ public class ComputeActivity extends AppCompatActivity
 
                     if (prioritySeekBar2.getProgress() == 0)
                     {
+                        // M | L
                         result = computeOperation(operationSpinner1, selectedNumber, result);
                         result = computeOperation(operationSpinner3, result, selectedNumber);
                     } else
                     {
+                        // M | R
                         result = computeOperation(operationSpinner3, result, selectedNumber);
                         result = computeOperation(operationSpinner1, selectedNumber, result);
                     }
@@ -112,18 +121,55 @@ public class ComputeActivity extends AppCompatActivity
                 {
                     //"Operation 2\nLeft Half Together Next   |   Middle & Previous Next"
                     result = computeOperation(operationSpinner3, selectedNumber, selectedNumber);
+                    // R | L
                     if (prioritySeekBar2.getProgress() == 0)
                     {
-                        result = computeOperation(operationSpinner2, result, computeOperation(operationSpinner1, selectedNumber, selectedNumber));
-                    } else
+                        result = computeOperation(operationSpinner2, computeOperation(operationSpinner1, selectedNumber, selectedNumber), result);
+                    }
+                    // R | R
+                    else
                     {
                         result = computeOperation(operationSpinner2, result, selectedNumber);
                         result = computeOperation(operationSpinner1, result, selectedNumber);
                     }
                 }
-                outputTextView.setText(Double.valueOf(result).toString());
-            }
 
+                //Doing stuff with the result of the operation result.
+                if (result % 1 == 0)
+                {
+                    int resultAsInt = (int) (result);
+                    outputTextView.setText(Integer.toString(resultAsInt));
+                    if (resultAsInt == targetNumber)
+                    {
+                        Toast.makeText(ComputeActivity.this, "You got it!", Toast.LENGTH_SHORT).show();
+
+                        //Checking the current saved values to check for dupes, in which case we don't save the current number
+                        String historyAsString = preferences.getString("historyOf" + Integer.toString(preferences.getInt("selectedNumber", 4)), "None!");
+                        //Checks if the history already contains the gotten value.
+                        if (!((Arrays.asList(historyAsString.split(";;"))).contains("" + resultAsInt)))
+                        {
+                            if (historyAsString.equals("None!") || historyAsString.equals(""))
+                                historyAsString = Integer.toString(resultAsInt);
+                            else
+                                historyAsString += ";;" + resultAsInt;
+                            editor.putString("historyOf" + Integer.toString(selectedNumber), historyAsString);
+                            editor.commit();
+                        }
+
+                        //Creating a delay before moving back to the previous screen
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable()
+                        {
+                            public void run() {
+                                startActivity(new Intent(getApplicationContext(), TargetActivity.class));
+                            }
+                        }, 1500);
+                    }
+                } else
+                {
+                    outputTextView.setText(Double.valueOf(result).toString());
+                }
+            }
         });
 
         //Adjusts text based on using settings of the priority SeekBar
@@ -158,6 +204,7 @@ public class ComputeActivity extends AppCompatActivity
         });
     }
 
+    //Does an operation with 2 numbers based on what operation is selected in the spinner
     public double computeOperation(Spinner spinner, double a, double b) {
         char charOfCurrentOperation = spinner.getSelectedItem().toString().charAt(0);
 
@@ -178,5 +225,11 @@ public class ComputeActivity extends AppCompatActivity
             return (Math.pow(a, b));
         }
         return 0;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(getApplicationContext(), TargetActivity.class));
     }
 }

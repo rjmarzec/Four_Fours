@@ -7,18 +7,31 @@
     tools:context=".TargetActivity">
 
     <TextView
-        android:id="@+id/targetTitle"
+        android:id="@+id/targetSelectedNumber"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Enter Your\nTarget Number"
+        android:layout_marginTop="8dp"
+        android:text="Selected Number: "
         android:textAlignment="center"
-        android:textSize="35sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/targetTitle"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Enter Your Target Number"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/targetSelectedNumber" />
 
     <EditText
         android:id="@+id/targetEnteredTarget"
@@ -37,25 +50,25 @@
     <TextView
         android:id="@+id/targetHistory"
         android:layout_width="300dp"
-        android:layout_height="215dp"
+        android:layout_height="170dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="8dp"
         android:text="History of Solved Numbers:\n"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/targetEnteredTarget" />
 
     <CheckBox
         android:id="@+id/targetCheckBox"
         android:layout_width="300dp"
         android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="390dp"
         android:text="Completed Locally?"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/targetStartButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/targetStartButton"

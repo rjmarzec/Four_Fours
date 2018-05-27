@@ -22,13 +22,12 @@ public class TargetActivity extends AppCompatActivity
 
     Button startButton;
     EditText enteredTarget;
-    TextView historyTextView;
+    TextView historyTextView, selectedNumberTextView;
     CheckBox isCompletedLocally;
-    public static int targetNumber;
-    private String tempstr;
     private SharedPreferences preferences;
     String history;
     ArrayList<String> historyList;
+    boolean numberEntered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +35,13 @@ public class TargetActivity extends AppCompatActivity
         setContentView(R.layout.activity_target);
 
         enteredTarget = findViewById(R.id.targetEnteredTarget);
+        selectedNumberTextView = findViewById(R.id.targetSelectedNumber);
         startButton = findViewById(R.id.targetStartButton);
         historyTextView = findViewById(R.id.targetHistory);
         isCompletedLocally = findViewById(R.id.targetCheckBox);
         isCompletedLocally.setClickable(false);
         isCompletedLocally.setChecked(false);
+        numberEntered = false;
 
         //Pulling the history of solved values
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -48,7 +49,23 @@ public class TargetActivity extends AppCompatActivity
         history = preferences.getString("historyOf" + Integer.toString(preferences.getInt("selectedNumber", 4)), "None!");
         historyList = new ArrayList<>(Arrays.asList(history.split(";;")));
 
+        //Sorting the history list by converting into ints and then comparing
+        int[] myIntArray = new int[historyList.size()];
+        if (historyList.get(0) != "None!")
+        {
+            for (int i = 0; i < historyList.size(); i++)
+            {
+                myIntArray[i] = Integer.parseInt(historyList.get(i));
+            }
+            Arrays.sort(myIntArray);
+            for (int i = 0; i < historyList.size(); i++)
+            {
+                historyList.set(i, "" + myIntArray[i]);
+            }
+        }
+
         //Getting the history of solved values to be displayed in a nice format
+        selectedNumberTextView.setText("Selected Number: " + preferences.getInt("selectedNumber", 4));
         String historyTextViewText = "History of Solved Number:\n";
         for (int i = 0; i < historyList.size(); i++)
         {
@@ -72,11 +89,12 @@ public class TargetActivity extends AppCompatActivity
                 {
                     int num = Integer.parseInt(enteredTarget.getText().toString());
                     editor.putInt("targetNumber", num);
+                    editor.commit();
 
                     startActivity(new Intent(getApplicationContext(), ComputeActivity.class));
                 } catch (NumberFormatException e)
                 {
-                    Toast.makeText(TargetActivity.this, "A non-number was entered. Please enter a number.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TargetActivity.this, "A non-number was entered. Please enter a number.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -105,9 +123,10 @@ public class TargetActivity extends AppCompatActivity
                         isCompletedLocally.setChecked(true);
                     else
                         isCompletedLocally.setChecked(false);
+                    numberEntered = true;
                 } catch (NumberFormatException e)
                 {
-                    Toast.makeText(TargetActivity.this, "A non-number was entered. Please enter a number.", Toast.LENGTH_SHORT).show();
+                    numberEntered = false;
                 }
             }
         });
