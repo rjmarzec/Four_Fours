@@ -1,8 +1,10 @@
 package rjmarzec.com.fourfours;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -53,8 +55,13 @@ public class SelectActivity extends AppCompatActivity
             {
                 if (numIsSelected)
                 {
-                    // TODO: Store the selected number to shared preferences for use later.
-                    //something something shared preferences
+                    //Pulling the selected Number and storing it to the shared preferences
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putInt("selectedNum", selectedNum);
+                    editor.putString("historyOf4", "1;;2;;3;;4");
+                    editor.commit();
+
                     startActivity(new Intent(getApplicationContext(), TargetActivity.class));
                 } else
                 {
