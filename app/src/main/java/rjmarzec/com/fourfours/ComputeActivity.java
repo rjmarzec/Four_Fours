@@ -68,7 +68,7 @@ public class ComputeActivity extends AppCompatActivity
 
         //Filling text of widgets based on the target and selected numbers
         selectedNumberTextView.setText("Selected Number: " + selectedNumber);
-        targetNumberTextView.setText("Target Number:" + targetNumber);
+        targetNumberTextView.setText("Target Number: " + targetNumber);
         number1.setText(String.valueOf(selectedNumber));
         number2.setText(String.valueOf(selectedNumber));
         number3.setText(String.valueOf(selectedNumber));
