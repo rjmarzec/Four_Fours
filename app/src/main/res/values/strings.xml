@@ -21,8 +21,18 @@
     <string name="operation2_label">Operation 2\nPrevious + Middle Next   |   Right Half Together Next</string>
     <string name="compute_label">Compute</string>
 
+    <string name="about_app">This is Four Fours, a simple math game where the hoal is to create any
+        number you choose using a only 4 of number and a limited set of mathematical operations. Try
+        to solve as many as possible, see how hard a number may be to get by checking out how many
+        times the number has been gotten by everyone with the app as well.\n\n
 
-    <string name="about_app">This game was created in under 24 hours by three people using Android Studio
-    and Firebase. The objective of the game is to create any number using four fours and mathematical
-    operations. Using a limited set of mathematical operations, try to create as many numbers as possible.</string>
+        This app was created in under 24 hours at CodeDay Spring 2018 by Robert Marzec, with help
+        from Joshua Garza. Some of the highlights include a local history of solved numbers, freedom to select
+        whichever number you desire to solve, an *interesting* way to pull what operations need to be done
+        in what order, an original logo, and an implementation of Firebase that allows for users to see
+        the total number of times a given number has been solved.\n\n
+
+        If this project at all interests you, feel free to check it out at my GitHub page (github.com/rjmarzec),
+        and if you have any comments, questions, or concerns, don't be afraid to shoot me an email at robertmarzecj@gmail.com.
+        \nI hope you enjoy!</string>
 </resources>
